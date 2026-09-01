@@ -2,8 +2,6 @@
 
 An AI-assisted Skill for reviewing tender documents before BID drafting and generating a concise, traceable, and stable Excel project snapshot.
 
-[English](README.md) | [中文](README.zh-CN.md)
-
 ## What this project does
 
 Tender Project Snapshot helps users understand a purchased or otherwise obtained tender package before they begin drafting a BID.
@@ -98,6 +96,7 @@ Requirements:
 Run the package preflight check first:
 
 ```bash
+cd tender-project-snapshot
 python3 scripts/build_project_snapshot.py --preflight
 ```
 
@@ -112,19 +111,19 @@ For best results, provide the main tender document together with separately issu
 ## Project structure
 
 ```text
-tender-project-snapshot/
+bid-skills/
 ├── README.md
-├── README.zh-CN.md
-├── SKILL.md
-├── agents/
-│   └── openai.yaml
-├── assets/
-│   └── 项目介绍_通用空白模板.xlsx
-├── references/
-│   ├── pre-bid-schema.md
-│   └── renderer-input-schema.md
-└── scripts/
-    └── build_project_snapshot.py
+└── tender-project-snapshot/
+    ├── SKILL.md
+    ├── agents/
+    │   └── openai.yaml
+    ├── assets/
+    │   └── 项目介绍_通用空白模板.xlsx
+    ├── references/
+    │   ├── pre-bid-schema.md
+    │   └── renderer-input-schema.md
+    └── scripts/
+        └── build_project_snapshot.py
 ```
 
 ## Design principles
