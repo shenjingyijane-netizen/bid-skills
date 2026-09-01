@@ -1,6 +1,6 @@
 # 稳定 Excel 渲染输入
 
-AI 完成全文提取和校验后，把结果整理成以下 JSON，再交给`../scripts/build_project_snapshot.py`一次性生成工作簿。JSON 是内部中间数据，不是交付物。
+AI 完成全文提取和校验后，把结果整理成以下 JSON，再交给`../scripts/build_prebid_review.py`一次性生成工作簿。JSON 是内部中间数据，不是交付物。
 
 ```json
 {

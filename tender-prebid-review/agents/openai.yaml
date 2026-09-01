@@ -1,4 +1,4 @@
 interface:
   display_name: "招标文件投标前审查"
-  short_description: "稳定生成项目介绍、准入审查和条件式合同核对 Excel"
+  short_description: "稳定生成项目概览、准入审查和按异常展开的合同核对 Excel"
   default_prompt: "使用 $tender-prebid-review 通读这份已购招标文件；先执行完整 Skill 包资产预检，再后台强制比对合同模板与项目需求。正常时只显示核对结论，异常时展开待人工确认明细；通过内置确定性渲染脚本输出初始状态干净、真实、美观、可打开的 .xlsx。"

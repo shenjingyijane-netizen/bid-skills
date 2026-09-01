@@ -1,9 +1,9 @@
 ---
 name: tender-prebid-review
-description: 通读已购得的招标、采购及投标相关 DOCX 或 PDF，通过内置确定性渲染脚本稳定输出真实可打开且经过美化的 .xlsx Excel 工作簿。用于第一阶段项目介绍：提取企业级投标准入条件、清晰解释项目与服务需求、归纳通用报价限制，并强制在后台比对合同模板和项目需求；正常时只显示核对结论，异常时才展开待人工确认明细。资格问题必须是一行一个、用户只需下拉选择“是”或“否”；不处理报名、评分响应和标书撰写，不预设行业、证照、服务资源或计价方式。当前阶段固定一个 Sheet。
+description: 通读已购得的招标、采购及投标相关 DOCX 或 PDF，通过内置确定性渲染脚本稳定输出真实可打开且经过美化的 .xlsx Excel 工作簿。用于第一阶段投标前审查：提取企业级投标准入条件、清晰解释项目与服务需求、归纳通用报价限制，并强制在后台比对合同模板和项目需求；正常时只显示核对结论，异常时才展开待人工确认明细。资格问题必须是一行一个、用户只需下拉选择“是”或“否”；不处理报名、评分响应和标书撰写，不预设行业、证照、服务资源或计价方式。当前阶段固定一个 Sheet。
 ---
 
-# 第一阶段：项目介绍
+# 第一阶段：投标前审查
 
 ## 目标和边界
 
@@ -25,20 +25,20 @@ description: 通读已购得的招标、采购及投标相关 DOCX 或 PDF，通
 - 最终交付物必须是一个真实、可打开的 `.xlsx` Excel 工作簿。
 - 不得用 `.txt`、`.md`、`.csv`、`.json`、HTML 或聊天中的 Markdown 表格替代。
 - 若平台无法创建或附加真实 `.xlsx`，必须明确报告能力限制，不能换成文本文件冒充完成。
-- 正式输出必须使用 [scripts/build_project_snapshot.py](scripts/build_project_snapshot.py) 从结构化数据一次性生成；不得让模型直接在空白模板中插行、删行或移动区域。
-- [assets/项目介绍_通用空白模板.xlsx](assets/项目介绍_通用空白模板.xlsx) 只用于查看视觉样式和字段结构，不再作为动态增删行的工作底稿。
+- 正式输出必须使用 [scripts/build_prebid_review.py](scripts/build_prebid_review.py) 从结构化数据一次性生成；不得让模型直接在样式参考工作簿中插行、删行或移动区域。
+- [assets/投标前审查_样式参考.xlsx](assets/投标前审查_样式参考.xlsx) 只用于查看视觉样式和字段结构，不作为动态增删行的工作底稿。
 
 ### 执行前资产预检
 
-先运行`python3 scripts/build_project_snapshot.py --preflight`，确认`SKILL.md`、渲染脚本、两个规则文件、Excel 视觉模板和代理配置均存在。任一资产缺失都说明用户提供的不是完整 Skill 包：立即停止并报告缺失文件，不得临场重写“等价”渲染器，也不得降级为 JSON、CSV、Markdown、TXT 或其他交付格式。
+先运行`python3 scripts/build_prebid_review.py --preflight`，确认`SKILL.md`、渲染脚本、两个规则文件、Excel 视觉参考和代理配置均存在。任一资产缺失都说明用户提供的不是完整 Skill 包：立即停止并报告缺失文件，不得临场重写“等价”渲染器，也不得降级为 JSON、CSV、Markdown、TXT 或其他交付格式。
 
 ### 稳定生成流程
 
 内容理解与 Excel 排版必须分开，避免模型一边理解文件一边移动单元格：
 
 1. 完成全文读取、资格分类、合同需求比对和项目归纳。
-2. 按 [references/renderer-input-schema.md](references/renderer-input-schema.md) 生成内部 JSON；JSON 只用于渲染，不交付给用户。
-3. 运行`python3 scripts/build_project_snapshot.py <input.json> <output.xlsx>`。脚本先根据各数组长度计算完整布局，再一次性写入所有区域。
+2. 按 [references/prebid-review-input-schema.md](references/prebid-review-input-schema.md) 生成内部 JSON；JSON 只用于渲染，不交付给用户。
+3. 运行`python3 scripts/build_prebid_review.py <input.json> <output.xlsx>`。脚本先根据各数组长度计算完整布局，再一次性写入所有区域。
 4. 生成后不得再插入/删除行列、合并/取消合并单元格、剪切粘贴区域、排序整张表、移动表头或做第二轮“美化”。内容需要修改时，只修改内部 JSON，再从头重新运行脚本。
 5. 脚本会先写入临时文件并重新打开校验 Sheet、表头坐标、列数、资格公式、下拉范围、条件格式和初始空白状态；全部通过后才原子替换为最终文件。校验失败时不得交付临时文件。
 
@@ -48,7 +48,7 @@ description: 通读已购得的招标、采购及投标相关 DOCX 或 PDF，通
 
 ### Sheet 数量
 
-当前阶段固定只有一个 Sheet：`项目介绍`。不得创建`评分与待确认`、资格清单、履约安排、报价或评分表等其他 Sheet。
+当前阶段固定只有一个 Sheet：`投标前审查`。不得创建`评分与待确认`、资格清单、履约安排、报价或评分表等其他 Sheet。
 
 ### 美化和可读性
 
@@ -70,11 +70,11 @@ description: 通读已购得的招标、采购及投标相关 DOCX 或 PDF，通
 - 先完成全文和全部表格读取，再生成工作簿；不能只凭目录、评分表或关键词推断项目。
 - 文件读取不完整、表格错位或 OCR 不可靠时先报告，不假装已经读完。
 
-不要要求用户人工复制目录、标题或大段正文，也不要为了项目介绍索取身份证、印章、合同原件等企业敏感材料。
+不要要求用户人工复制目录、标题或大段正文，也不要为了投标前审查索取身份证、印章、合同原件等企业敏感材料。
 
 ## 内容和字段规则
 
-生成内部 JSON 前，必须完整读取并执行 [references/pre-bid-schema.md](references/pre-bid-schema.md)。该文件集中定义企业级投标准入、项目概览、项目内容、报价限制以及合同与项目需求比对，避免在主说明中重复同一套规则。
+生成内部 JSON 前，必须完整读取并执行 [references/prebid-review-rules.md](references/prebid-review-rules.md)。该文件集中定义企业级投标准入、项目概览、项目内容、报价限制以及合同与项目需求比对，避免在主说明中重复同一套规则。
 
 ## 引用和事实规则
 
@@ -82,7 +82,7 @@ description: 通读已购得的招标、采购及投标相关 DOCX 或 PDF，通
 - 来源定位优先使用“标题/条款 + 稳定页码”；DOCX 等没有稳定页码时，使用“标题/条款/表名 + 可搜索原文短句”，不得编造页码。
 - 同一结论涉及多处内容时合并表达并列全主要出处。
 - 不因当前项目所属行业改变模板结构或预填行业示例。
-- 渲染字段和 JSON 键名见 [references/renderer-input-schema.md](references/renderer-input-schema.md)。
+- 渲染字段和 JSON 键名见 [references/prebid-review-input-schema.md](references/prebid-review-input-schema.md)。
 
 ## 交付前验证
 
@@ -90,7 +90,7 @@ description: 通读已购得的招标、采购及投标相关 DOCX 或 PDF，通
 
 - 文件确实是 `.xlsx`，能够被 Excel 或兼容软件打开。
 - 完整 Skill 包的资产预检已通过，工作簿由内置脚本生成，生成后没有二次插删行列或移动单元格。
-- 工作簿只有`项目介绍`一个 Sheet。
+- 工作簿只有`投标前审查`一个 Sheet。
 - 总标题、分区标题、每一列表头和状态字段居中；说明、长正文和来源文字左对齐；列宽、行高和换行可读，未用空行已删除。
 - 资格区只包含企业级准入条件，没有混入服务资源或履约方案。
 - 资格区没有混入报名、登记、购标、领取、下载或获取招标/采购文件所需的条件和材料。

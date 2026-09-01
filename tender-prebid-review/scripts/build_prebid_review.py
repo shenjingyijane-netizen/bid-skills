@@ -49,10 +49,10 @@ PACKAGE_ROOT = Path(__file__).resolve().parent.parent
 REQUIRED_PACKAGE_ASSETS = (
     "SKILL.md",
     "agents/openai.yaml",
-    "assets/项目介绍_通用空白模板.xlsx",
-    "references/pre-bid-schema.md",
-    "references/renderer-input-schema.md",
-    "scripts/build_project_snapshot.py",
+    "assets/投标前审查_样式参考.xlsx",
+    "references/prebid-review-rules.md",
+    "references/prebid-review-input-schema.md",
+    "scripts/build_prebid_review.py",
 )
 
 
@@ -82,9 +82,9 @@ def preflight_package():
             "incomplete tender-prebid-review package; missing assets: "
             + ", ".join(missing)
         )
-    template = PACKAGE_ROOT / "assets/项目介绍_通用空白模板.xlsx"
-    if not zipfile.is_zipfile(template):
-        raise ValueError("the bundled Excel visual template is not a valid xlsx file")
+    style_reference = PACKAGE_ROOT / "assets/投标前审查_样式参考.xlsx"
+    if not zipfile.is_zipfile(style_reference):
+        raise ValueError("the bundled Excel style reference is not a valid xlsx file")
     if OPENPYXL_IMPORT_ERROR is not None:
         raise RuntimeError(
             "Python dependency openpyxl is unavailable; this environment cannot generate xlsx"
@@ -221,7 +221,7 @@ def validate_initial_delivery_state(data, contract):
             )
 
 
-def make_intro(wb, data, contract):
+def build_review_sheet(wb, data, contract):
     qualifications = records(data, "qualifications")
     requirements = records(data, "project_requirements")
     quote_rules = records(data, "quote_restrictions")
@@ -232,14 +232,14 @@ def make_intro(wb, data, contract):
         raise ValueError("overview must be an object")
 
     ws = wb.active
-    ws.title = "项目介绍"
+    ws.title = "投标前审查"
     ws.sheet_view.showGridLines = False
     widths = [6, 15, 28, 14, 18, 12, 14, 17, 18, 20]
     for col, width in enumerate(widths, 1):
         ws.column_dimensions[get_column_letter(col)].width = width
 
     ws.merge_cells("A1:J1")
-    ws["A1"] = "项目介绍与投标准入"
+    ws["A1"] = "招标文件投标前审查"
     ws["A1"].font = Font(name=FONT, size=16, bold=True, color=WHITE)
     ws["A1"].fill = PatternFill("solid", fgColor=NAVY)
     ws["A1"].alignment = Alignment(horizontal="center", vertical="center")
@@ -673,12 +673,12 @@ def validate_workbook(path, layout):
         if archive.testzip() is not None:
             raise ValueError("generated xlsx archive is corrupt")
     wb = load_workbook(path, data_only=False)
-    expected = ["项目介绍"]
+    expected = ["投标前审查"]
     if wb.sheetnames != expected:
         raise ValueError(f"unexpected sheets: {wb.sheetnames}")
-    ws = wb["项目介绍"]
+    ws = wb["投标前审查"]
     checks = {
-        "A1": "项目介绍与投标准入",
+        "A1": "招标文件投标前审查",
         "A6": "序号",
         f"A{layout['overview_header']}": "项目名称",
         f"A{layout['requirement_header']}": "序号",
@@ -737,7 +737,7 @@ def build_workbook(data, output_path):
     contract = validate_contract_comparison(data)
     validate_initial_delivery_state(data, contract)
     wb = Workbook()
-    layout = make_intro(wb, data, contract)
+    layout = build_review_sheet(wb, data, contract)
     wb.calculation.fullCalcOnLoad = True
     wb.calculation.forceFullCalc = True
     wb.calculation.calcMode = "auto"

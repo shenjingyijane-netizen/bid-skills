@@ -21,7 +21,7 @@
 
 ## 第一阶段能力
 
-当前 Skill 生成一个名为 `项目介绍` 的 Excel Sheet，包含以下五个部分：
+当前 Skill 生成一个名为 `投标前审查` 的 Excel Sheet，包含以下五个部分：
 
 1. **企业级投标准入审查**
    - 只提取决定投标主体自身是否具备资格的要求。
@@ -97,7 +97,7 @@ AI 提取、分类与合同核对
 
 ```bash
 cd tender-prebid-review
-python3 scripts/build_project_snapshot.py --preflight
+python3 scripts/build_prebid_review.py --preflight
 ```
 
 请求示例：
@@ -118,12 +118,12 @@ bid-skills/
     ├── agents/
     │   └── openai.yaml
     ├── assets/
-    │   └── 项目介绍_通用空白模板.xlsx
+    │   └── 投标前审查_样式参考.xlsx
     ├── references/
-    │   ├── pre-bid-schema.md
-    │   └── renderer-input-schema.md
+    │   ├── prebid-review-rules.md
+    │   └── prebid-review-input-schema.md
     └── scripts/
-        └── build_project_snapshot.py
+        └── build_prebid_review.py
 ```
 
 ## 设计原则
