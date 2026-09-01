@@ -1,114 +1,114 @@
-# Tender Pre-BID Review
+# 招标文件投标前审查
 
-An AI-assisted Skill for reviewing tender documents before BID drafting and generating a concise, traceable, and stable Excel pre-bid review workbook.
+一个用于标书撰写前审查招标文件的 AI 辅助 Skill，可生成简洁、可追溯且结构稳定的 Excel 投标前审查工作簿。
 
-## What this project does
+## 项目简介
 
-Tender Pre-BID Review helps users understand a purchased or otherwise obtained tender package before they begin drafting a BID.
+`Tender Pre-BID Review` 帮助用户在开始撰写标书前，快速理解已经购买或以其他方式取得的完整招标文件包。
 
-It reads the complete tender document and relevant attachments, extracts the information that affects whether and how the project should proceed, and produces a professionally formatted `.xlsx` workbook. The goal is to reduce repetitive document review while keeping important conclusions traceable to the source text.
+它会读取招标文件正文及相关附件，提取影响项目是否能够参与、应当如何推进的关键信息，并生成经过专业排版的 `.xlsx` 工作簿。项目的目标是减少重复的文件审阅工作，同时让重要结论能够追溯到原文。
 
-This project is designed to assist human work, not replace it. AI performs extraction, classification, comparison, and organization; the user remains responsible for qualification decisions, clarification requests, commercial judgment, and the final BID.
+本项目用于辅助人工工作，而不是取代人工判断。AI 负责提取、分类、比对和整理；用户仍需负责资格判断、澄清事项、商务决策和最终投标文件。
 
-## Current status
+## 当前阶段
 
-The project is currently in **Stage 1: Pre-BID Review**.
+项目目前处于 **第一阶段：投标前审查**。
 
-Stage 1 is implemented and focuses on reviewing the tender package before BID drafting begins. The following stages are still under development and are not yet complete:
+第一阶段已经完成，重点是在标书撰写开始前审阅完整招标文件包。以下阶段仍在开发中，尚未完成：
 
-- **Stage 2: BID Drafting** - extract the required BID format and basic fields, classify historical content as reusable, reusable after update, or project-specific, and organize scoring and response requirements.
-- **Stage 3: Post-BID Check** - provide a final yes/no checklist for dates, signatures, seals, attachments, printing, binding, packaging, sealing, and scanned PDF delivery.
+- **第二阶段：标书撰写**：提取投标文件格式和基础字段，将历史内容分类为“可直接复用”“更新后复用”或“本项目专用”，并整理评分标准与响应要求。
+- **第三阶段：投标后检查**：针对日期、签字、盖章、附件、打印、装订、包装、密封和扫描 PDF 交付提供最终的是/否检查清单。
 
-## Stage 1 capabilities
+## 第一阶段能力
 
-The current Skill generates one Excel Sheet named `项目介绍` and includes five sections:
+当前 Skill 生成一个名为 `项目介绍` 的 Excel Sheet，包含以下五个部分：
 
-1. **Enterprise-level eligibility review**
-   - Extracts only requirements that determine whether the bidding entity itself is eligible.
-   - Excludes registration, tender-document purchase, personnel deployment, equipment configuration, and service-plan requirements.
-   - Splits compound requirements into one factual yes/no question per row.
-   - Provides Excel dropdowns for user confirmation and formula-based status results.
+1. **企业级投标准入审查**
+   - 只提取决定投标主体自身是否具备资格的要求。
+   - 排除报名、购买招标文件、人员配置、设备配置和服务方案要求。
+   - 将复合条件拆分为每行一个事实问题，由用户回答“是”或“否”。
+   - 提供 Excel 下拉选项，并通过公式自动计算审查状态。
 
-2. **30-second project overview**
-   - Summarizes the project name, project number, purchaser, procurement agent, procurement method, award count, deadline, opening location, and a one-sentence project definition.
-   - Separates the actual project scenario from pricing or calculation benchmarks.
+2. **项目 30 秒概览**
+   - 汇总项目名称、项目编号、采购人、采购代理机构、采购方式、中标或成交数量、投标截止时间、开标地点和一句话项目定义。
+   - 区分项目实际使用场景与计价、测算基准。
 
-3. **Project scope and key requirements**
-   - Explains what is being purchased, who receives the service or deliverable, how the project is expected to operate, and the relevant time, location, scale, standards, deliverables, and acceptance requirements.
-   - Uses `未说明` (`Not specified`) when the source document does not provide an answer instead of guessing.
+3. **项目范围与关键要求**
+   - 解释采购内容、服务或交付对象、项目运行方式，以及相关时间、地点、规模、标准、成果和验收要求。
+   - 原文件没有说明时填写 `未说明`，不进行推测。
 
-4. **Contract comparison**
-   - Compares the contract template with the project requirements whenever a contract is included.
-   - Keeps the Excel output compact when the two are consistent.
-   - Expands only conflicts, omissions, uncertain differences, and items requiring human confirmation.
-   - Extracts statements about whether the contract is only a reference template and which document takes priority if provisions conflict.
+4. **合同核对**
+   - 文件包含合同模板时，强制将合同模板与项目需求逐项比对。
+   - 两者一致时保持 Excel 输出简洁。
+   - 只展开冲突、遗漏、疑似差异和需要人工确认的事项。
+   - 提取合同是否仅为参考模板，以及条款冲突时各文件的效力顺序。
 
-5. **Quotation restriction reminders**
-   - Extracts the maximum price or other quotation limits, tax requirements, consequences of non-compliance, and the location of the official quotation form.
-   - Does not rebuild the purchaser's quotation form or invent a new pricing structure.
+5. **报价限制提示**
+   - 提取最高限价或其他报价限制、含税要求、不符合要求的后果，以及正式报价表所在位置。
+   - 不重建采购人提供的报价表，也不自行设计新的计价结构。
 
-## What Stage 1 does not do
+## 第一阶段不处理的内容
 
-- It does not handle project registration or tender-document purchase procedures.
-- It does not draft the BID, write service plans, or produce scoring responses.
-- It does not replace the official quotation form.
-- It does not make eligibility decisions on behalf of the user.
-- It does not guarantee that AI has identified every semantic conflict or document defect.
-- It is not legal, procurement, financial, or compliance advice.
+- 不处理项目报名或招标文件购买流程。
+- 不撰写标书、服务方案或评分响应内容。
+- 不替代官方报价表。
+- 不代替用户作出投标资格判断。
+- 不保证 AI 能发现所有语义冲突或文件缺陷。
+- 不构成法律、采购、财务或合规建议。
 
-## Output design
+## 输出设计
 
-The formal deliverable is always a real `.xlsx` workbook, not TXT, Markdown, CSV, JSON, HTML, or a chat table.
+正式交付物始终是真实的 `.xlsx` 工作簿，不使用 TXT、Markdown、CSV、JSON、HTML 或聊天表格代替。
 
-The Skill separates document understanding from spreadsheet rendering:
+Skill 将文件理解与 Excel 渲染分开处理：
 
 ```text
-Tender document and attachments
-            |
-            v
-AI extraction, classification, and contract comparison
-            |
-            v
-Structured internal data
-            |
-            v
-Deterministic Python renderer
-            |
-            v
-Validated single-Sheet Excel workbook
+招标文件及附件
+      |
+      v
+AI 提取、分类与合同核对
+      |
+      v
+结构化内部数据
+      |
+      v
+确定性 Python 渲染器
+      |
+      v
+经过校验的单 Sheet Excel 工作簿
 ```
 
-The bundled renderer calculates the complete layout before writing the workbook. It validates the Sheet structure, formulas, dropdown ranges, conditional formatting, initial blank state, and contract-comparison completeness before replacing the final file.
+内置渲染器会在写入工作簿前计算完整布局，并在替换最终文件前校验 Sheet 结构、公式、下拉范围、条件格式、初始空白状态和合同比对完整性。
 
-This design reduces common spreadsheet-generation failures such as shifted columns, misplaced headers, leftover test selections, unreadable status colors, and inconsistent formatting.
+这种设计可减少列错位、表头位置错误、测试选项残留、状态文字不可读和格式不一致等常见的表格生成问题。
 
-## Installation and use
+## 安装与使用
 
-Use the complete Skill package. Do not provide only `SKILL.md`, because the renderer, field rules, input schema, and Excel style reference are required runtime assets.
+请使用完整的 Skill 包，不要只提供 `SKILL.md`。渲染器、字段规则、输入结构和 Excel 样式参考均为运行时必需资源。
 
-Requirements:
+运行要求：
 
 - Python 3
 - `openpyxl`
-- An AI agent environment capable of reading DOCX or PDF files and executing the bundled Python renderer
-- Excel, WPS, LibreOffice, or another compatible application for opening the output
+- 能够读取 DOCX 或 PDF 并执行内置 Python 渲染器的 AI Agent 环境
+- Excel、WPS、LibreOffice 或其他能够打开 `.xlsx` 的兼容软件
 
-Run the package preflight check first:
+使用前先执行完整包预检：
 
 ```bash
 cd tender-prebid-review
 python3 scripts/build_project_snapshot.py --preflight
 ```
 
-Example request:
+请求示例：
 
 ```text
-Use $tender-prebid-review to read this complete tender package and generate the Stage 1 pre-BID review workbook. Compare the contract template with the project requirements and deliver a real .xlsx file.
+使用 $tender-prebid-review 通读这套完整招标文件，生成第一阶段投标前审查工作簿。请将合同模板与项目需求进行比对，并交付真实的 .xlsx 文件。
 ```
 
-For best results, provide the main tender document together with separately issued attachments, BID formats, quotation forms, clarification documents, and amendments.
+为获得更完整的结果，请同时提供主招标文件、单独发布的附件、投标格式、报价表、澄清文件和补充文件。
 
-## Project structure
+## 项目结构
 
 ```text
 bid-skills/
@@ -126,27 +126,27 @@ bid-skills/
         └── build_project_snapshot.py
 ```
 
-## Design principles
+## 设计原则
 
-- Read the complete document before drawing conclusions.
-- Record explicit facts and write `未说明` (`Not specified`) when information is absent.
-- Keep the framework industry-neutral and populate specific requirements only from the current tender package.
-- Keep qualification review limited to enterprise-level eligibility.
-- Preserve searchable source locations for important conclusions and anomalies.
-- Use deterministic code for spreadsheet layout and validation.
-- Keep the output concise enough for rapid human review.
-- Fail clearly when required assets or runtime capabilities are unavailable.
+- 得出结论前通读完整文件。
+- 只记录文件明确表达的事实；信息缺失时填写 `未说明`。
+- 保持框架与行业无关，只根据当前招标文件填入具体要求。
+- 将资格审查严格限定为企业级投标准入条件。
+- 为重要结论和异常保留可检索的原文位置。
+- 使用确定性代码完成表格布局和校验。
+- 保持输出简洁，便于快速人工复核。
+- 必需资产或运行能力缺失时明确失败，不降级生成其他格式。
 
-## Limitations and human review
+## 限制与人工复核
 
-The renderer can verify mechanical rules such as file integrity, Sheet structure, formulas, dropdowns, formatting, and blank initial states. It cannot prove that the AI has understood every clause or discovered every inconsistency.
+渲染器能够校验文件完整性、Sheet 结构、公式、下拉选项、格式和初始空白状态等机械规则，但无法证明 AI 已经正确理解每一条条款或发现所有不一致之处。
 
-OCR quality, complex tables, embedded objects, and unstable DOCX pagination may affect source extraction. Before using the result in a real procurement process, manually review all eligibility items, source references, contract anomalies, quotation limits, and clarification questions.
+OCR 质量、复杂表格、嵌入对象和不稳定的 DOCX 页码都可能影响原文提取。在实际采购项目中使用结果前，应人工复核所有资格事项、原文位置、合同异常、报价限制和澄清问题。
 
-## Roadmap
+## 路线图
 
-- [x] Stage 1: Pre-BID Review
-- [ ] Stage 2: BID Drafting
-- [ ] Stage 3: Post-BID Check
+- [x] 第一阶段：投标前审查
+- [ ] 第二阶段：标书撰写
+- [ ] 第三阶段：投标后检查
 
-The project is still evolving. Real tender-package tests, issue reports, and generalizable workflow suggestions are welcome.
+项目仍在持续完善中，欢迎提供真实招标文件包的测试反馈、问题报告和可复用的流程建议。
