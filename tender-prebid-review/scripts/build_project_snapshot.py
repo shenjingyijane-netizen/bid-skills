@@ -79,7 +79,7 @@ def preflight_package():
             missing.append(relative_path)
     if missing:
         raise FileNotFoundError(
-            "incomplete tender-project-snapshot package; missing assets: "
+            "incomplete tender-prebid-review package; missing assets: "
             + ", ".join(missing)
         )
     template = PACKAGE_ROOT / "assets/项目介绍_通用空白模板.xlsx"
@@ -762,14 +762,14 @@ def build_workbook(data, output_path):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Build a stable tender project snapshot workbook")
+    parser = argparse.ArgumentParser(description="Build a stable tender pre-bid review workbook")
     parser.add_argument("--preflight", action="store_true", help="verify bundled Skill assets")
     parser.add_argument("input_json", nargs="?", help="structured extraction JSON")
     parser.add_argument("output_xlsx", nargs="?", help="output .xlsx path")
     args = parser.parse_args()
     if args.preflight:
         preflight_package()
-        print("tender-project-snapshot package preflight passed")
+        print("tender-prebid-review package preflight passed")
         return
     if not args.input_json or not args.output_xlsx:
         parser.error("input_json and output_xlsx are required unless --preflight is used")

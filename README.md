@@ -1,10 +1,10 @@
-# Tender Project Snapshot
+# Tender Pre-BID Review
 
-An AI-assisted Skill for reviewing tender documents before BID drafting and generating a concise, traceable, and stable Excel project snapshot.
+An AI-assisted Skill for reviewing tender documents before BID drafting and generating a concise, traceable, and stable Excel pre-bid review workbook.
 
 ## What this project does
 
-Tender Project Snapshot helps users understand a purchased or otherwise obtained tender package before they begin drafting a BID.
+Tender Pre-BID Review helps users understand a purchased or otherwise obtained tender package before they begin drafting a BID.
 
 It reads the complete tender document and relevant attachments, extracts the information that affects whether and how the project should proceed, and produces a professionally formatted `.xlsx` workbook. The goal is to reduce repetitive document review while keeping important conclusions traceable to the source text.
 
@@ -96,14 +96,14 @@ Requirements:
 Run the package preflight check first:
 
 ```bash
-cd tender-project-snapshot
+cd tender-prebid-review
 python3 scripts/build_project_snapshot.py --preflight
 ```
 
 Example request:
 
 ```text
-Use $tender-project-snapshot to read this complete tender package and generate the Stage 1 pre-BID review workbook. Compare the contract template with the project requirements and deliver a real .xlsx file.
+Use $tender-prebid-review to read this complete tender package and generate the Stage 1 pre-BID review workbook. Compare the contract template with the project requirements and deliver a real .xlsx file.
 ```
 
 For best results, provide the main tender document together with separately issued attachments, BID formats, quotation forms, clarification documents, and amendments.
@@ -113,7 +113,7 @@ For best results, provide the main tender document together with separately issu
 ```text
 bid-skills/
 ├── README.md
-└── tender-project-snapshot/
+└── tender-prebid-review/
     ├── SKILL.md
     ├── agents/
     │   └── openai.yaml
